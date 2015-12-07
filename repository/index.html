@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{
+	width:1200px;
+	margin:100px auto;
+}
+svg text{
+	font-size:12px;
+}
+rect{
+	shape-rendering:crispEdges;
+}
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="biPartite.js"></script>
+<script>
+var sales_data=[
+['Easy-to-Install Doors Available at The Home Depot','disconnectme',1],
+['Easy-to-Install Doors Available at The Home Depot','furniture',1],
+['Easy-to-Install Doors Available at The Home Depot','gym',1],
+['Easy-to-Install Doors Available at The Home Depot','tool',1],
+['Easy-to-Install Doors Available at The Home Depot','room',1],
+['Hassle-Free Installation Try Easy Install Doors','house',1],
+['Hassle-Free Installation Try Easy Install Doors','weather',1],
+['Hassle-Free Installation Try Easy Install Doors','gym',1],
+['Hassle-Free Installation Try Easy Install Doors','recipe',1],
+['Hassle-Free Installation Try Easy Install Doors','health',1],
+['Storm-Ready in 45 Minutes Get Prepared at The Home Depot','disconnectme',1],
+['Storm-Ready in 45 Minutes Get Prepared at The Home Depot','you',1],
+['Storm-Ready in 45 Minutes Get Prepared at The Home Depot','gym',1],
+['Storm-Ready in 45 Minutes Get Prepared at The Home Depot','root veggie',1],
+['Storm-Ready in 45 Minutes Get Prepared at The Home Depot','fall food',1],
+['New Doors in No Time Click to Browse','V home garden',1],
+['New Doors in No Time Click to Browse','furniture',1],
+['New Doors in No Time Click to Browse','gym',1],
+['New Doors in No Time Click to Browse','root veggie',1],
+['New Doors in No Time Click to Browse','fall food',1],
+['Protect Your Home Find Out How','V family',1],
+['Protect Your Home Find Out How','V home garden',1],
+['Protect Your Home Find Out How','sport vetical',1],
+['Protect Your Home Find Out How','V food',1],
+['Protect Your Home Find Out How','Mayo 300x600',1],
+['Protect Your Home Find Out How','mens life vertical',1],
+['Protect Your Home Find Out How','V health',1],
+['Protect Your Home Find Out How','you',1],
+['Protect Fine Wood Doors Click to Learn How','sport vetical',1],
+['Protect Fine Wood Doors Click to Learn How','V auto',1],
+['Protect Fine Wood Doors Click to Learn How','tool',1],
+['Protect Fine Wood Doors Click to Learn How','room',1],
+['Protect Fine Wood Doors Click to Learn How','health',1],
+['Exterior Door Protection Get Storm Doors Now','V family',1],
+['Exterior Door Protection Get Storm Doors Now','furniture',1],
+['Exterior Door Protection Get Storm Doors Now','winter',1],
+['Exterior Door Protection Get Storm Doors Now','recipe',1],
+['Exterior Door Protection Get Storm Doors Now','fall food',1],
+['Need a New Front Door Try Easy Install Doors','V home garden',1],
+['Need a New Front Door Try Easy Install Doors','Platform',1],
+['Need a New Front Door Try Easy Install Doors','house',1],
+['Need a New Front Door Try Easy Install Doors','V food',1],
+['Exterior Door Protection Get Storm Doors Now','V family',1],
+['Exterior Door Protection Get Storm Doors Now','furniture',1],
+['Exterior Door Protection Get Storm Doors Now','winter',1],
+['Exterior Door Protection Get Storm Doors Now','recipe',1],
+['Exterior Door Protection Get Storm Doors Now','health',1],
+['Stylish & Practical Doors Save at The Home Depot','furniture',1],
+['Stylish & Practical Doors Save at The Home Depot','house',1],
+['Stylish & Practical Doors Save at The Home Depot','tool',1],
+['Stylish & Practical Doors Save at The Home Depot','root veggie',1],
+['Stylish & Practical Doors Save at The Home Depot','fall food',1],
+['Exterior Home Remodeling Learn More Here','house',1],
+['Exterior Home Remodeling Learn More Here','weather',1],
+['Exterior Home Remodeling Learn More Here','tool',1],
+['Exterior Home Remodeling Learn More Here','recipe',1],
+['Exterior Home Remodeling Learn More Here','health',1],
+['Must-Have for a New Home Click to Learn How','disconnectme',1],
+['Must-Have for a New Home Click to Learn How','V auto',1],
+['Must-Have for a New Home Click to Learn How','Platform',1],
+['Must-Have for a New Home Click to Learn How','V food',1],
+['Must-Have for a New Home Click to Learn How','mens life vertical',1],
+['Must-Have for a New Home Click to Learn How','V health',1],
+['Want Your Doors to Last Find Out How','V family',1],
+['Want Your Doors to Last Find Out How','sport vetical',1],
+['Want Your Doors to Last Find Out How','Platform',1],
+['Want Your Doors to Last Find Out How','V food',1],
+['Want Your Doors to Last Find Out How','Mayo 300x600',1],
+['Want Your Doors to Last Find Out How','mens life vertical',1],
+['Want Your Doors to Last Find Out How','you',1],
+['Dont Wait Until Winter Get Prepared w/ The Home Depot','V health',1],
+['Dont Wait Until Winter Get Prepared w/ The Home Depot','house',1],
+['Dont Wait Until Winter Get Prepared w/ The Home Depot','winter',1],
+['Dont Wait Until Winter Get Prepared w/ The Home Depot','recipe',1],
+['Dont Wait Until Winter Get Prepared w/ The Home Depot','health',1],
+['Hurricane Season Is Near Be Prepared w/ The Home Depot','disconnectme',1],
+['Hurricane Season Is Near Be Prepared w/ The Home Depot','V home garden',1],
+['Hurricane Season Is Near Be Prepared w/ The Home Depot','V food',1],
+['Hurricane Season Is Near Be Prepared w/ The Home Depot','Mayo 300x600',1],
+['Hurricane Season Is Near Be Prepared w/ The Home Depot','weather',1],
+['Bad Weather In Your Area Click to Learn How','sport vetical',1],
+['Bad Weather In Your Area Click to Learn How','V auto',1],
+['Bad Weather In Your Area Click to Learn How','Mayo 300x600',1],
+['Bad Weather In Your Area Click to Learn How','mens life vertical',1],
+['Bad Weather In Your Area Click to Learn How','V health',1],
+['Bad Weather In Your Area Click to Learn How','you',1],
+['Bad Weather In Your Area Click to Learn How','weather',1],
+['Before Its Too Late Get Storm Doors Now','V family',1],
+['Before Its Too Late Get Storm Doors Now','Platform',1],
+['Before Its Too Late Get Storm Doors Now','V auto',1],
+['Before Its Too Late Get Storm Doors Now','V health',1],
+['Before Its Too Late Get Storm Doors Now','winter',1],
+['Transform Your Entryway Click to Browse','Mayo 300x600',1],
+['Transform Your Entryway Click to Browse','you',1],
+['Transform Your Entryway Click to Browse','gym',1],
+['Transform Your Entryway Click to Browse','root veggie',1],
+['Transform Your Entryway Click to Browse','room',1],
+['Need a New Front Door Try Easy Install Doors','V home garden',1],
+['Need a New Front Door Try Easy Install Doors','sport vetical',1],
+['Need a New Front Door Try Easy Install Doors','Platform',1],
+['Need a New Front Door Try Easy Install Doors','house',1],
+['Need a New Front Door Try Easy Install Doors','fall food',1],
+['Why Buy a Storm Door Click for More Info','mens life vertical',1],
+['Why Buy a Storm Door Click for More Info','furniture',1],
+['Why Buy a Storm Door Click for More Info','winter',1],
+['Why Buy a Storm Door Click for More Info','root veggie',1],
+['Why Buy a Storm Door Click for More Info','room',1],
+['Be Ready for Bad Weather Get Prepared w/ The Home Depot','disconnectme',1],
+['Be Ready for Bad Weather Get Prepared w/ The Home Depot','V home garden',1],
+['Be Ready for Bad Weather Get Prepared w/ The Home Depot','weather',1],
+['Be Ready for Bad Weather Get Prepared w/ The Home Depot','tool',1],
+['Be Ready for Bad Weather Get Prepared w/ The Home Depot','room',1],
+['Self-Storing Storm Door Get the Deal Here','V family',1],
+['Self-Storing Storm Door Get the Deal Here','V auto',1],
+['Self-Storing Storm Door Get the Deal Here','Platform',1],
+['Self-Storing Storm Door Get the Deal Here','V health',1],
+['Self-Storing Storm Door Get the Deal Here','winter',1],
+['Prevent Weather Damage Click to Learn How','V auto',1],
+['Prevent Weather Damage Click to Learn How','Mayo 300x600',1],
+['Prevent Weather Damage Click to Learn How','weather',1],
+['Prevent Weather Damage Click to Learn How','tool',1],
+['Prevent Weather Damage Click to Learn How','room',1],
+['Your Home Might Need This Click for More Info','sport vetical',1],
+['Your Home Might Need This Click for More Info','mens life vertical',1],
+['Your Home Might Need This Click for More Info','you',1],
+['Your Home Might Need This Click for More Info','recipe',1],
+['Your Home Might Need This Click for More Info','health',1],
+['Replacing Doors Is Costly Save at The Home Depot','disconnectme',1],
+['Replacing Doors Is Costly Save at The Home Depot','V food',1],
+['Replacing Doors Is Costly Save at The Home Depot','gym',1],
+['Replacing Doors Is Costly Save at The Home Depot','root veggie',1],
+['Replacing Doors Is Costly Save at The Home Depot','fall food',1]
+];
+
+var width = 1100, height = 610, margin ={b:0, t:40, l:170, r:50};
+
+var svg = d3.select("body")
+	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
+	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
+
+var data = [ 
+	{data:bP.partData(sales_data,2), id:'SalesAttempts', header:["Ad Copies","Matchgroup", "Ad Match Chart"]}
+];
+
+bP.draw(data, svg);
+
+</script>
+</body>
